@@ -1,3 +1,4 @@
+import Button from "@/components/button";
 import { OnboardData } from "@/constants/onboarding";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
@@ -9,6 +10,7 @@ import Swiper from "react-native-swiper";
 export default function Onboarding () {
     const swiperRef = useRef<Swiper>(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const isLastSlide = activeIndex === OnboardData.length - 1; 
 
     return (
         <SafeAreaView className="flex h-full items-center justify-between bg-white">
@@ -36,6 +38,13 @@ export default function Onboarding () {
                     </View>
                 )))}
             </Swiper>
+
+            <Button title={isLastSlide ? "Finish" : "Next"}
+                onPress={() => isLastSlide ? 
+                    router.replace("/(auth)/sign-up") : 
+                    swiperRef.current?.scrollBy(1)}
+                className="w-11/12 mt-7"
+            />
         </SafeAreaView>
     )
 }
